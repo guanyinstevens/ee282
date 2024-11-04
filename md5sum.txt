@@ -1,0 +1,1 @@
+be1f79c5922a4bf08548a2a4553e4d5f  dmel-all-chromosome-r6.48.fasta.gz
