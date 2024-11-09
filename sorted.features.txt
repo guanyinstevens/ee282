@@ -1,0 +1,16 @@
+ 190050 exon
+ 163242 CDS
+  46802 5UTR
+  33738 3UTR
+  30885 start_codon
+  30825 stop_codon
+  30799 mRNA
+  17896 gene
+   3053 ncRNA
+    485 miRNA
+    365 pseudogene
+    312 tRNA
+    300 snoRNA
+    262 pre_miRNA
+    115 rRNA
+     32 snRNA
