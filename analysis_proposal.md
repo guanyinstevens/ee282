@@ -19,14 +19,20 @@ To perform the analysis, I would first start by downloading and creating folders
 For my project I hope to analyze publicly accessible datasets containing RNASeq data from *Drosophila* fed on starvation and high sugar diets, in a wild-type and mlx1 background. By doing so, this will allow me to elucidate other transcription factors involved in the regulation of sugar homeostasis which may act in a sugar-responsive manner. My main goal of the project is to hopefully identify transcription factors that may regulate *dawdle*. Additionally, it allows me to investigate if there are transcription factors that regulate sugar homeostasis outside of Mondo-Mlx regulation. This project is feasible as I will use datasets that have been previously published and requires no permissions to use. If time allows, I will analyze and compare the second data set, but my primary goal will be to perform the Additionally, some of the analyses of these data sets have been published and validated, allowing me to double-check my initial results in identifying factors with my own analysis. In the future, I would like to perform ATAC-Seq using a method that performs transcription factor footprinting on DNA from flies that were fed on a starvation diet and high sugar diet to further validate these interactions (Bentsen et al., 2020). 
 
 ## References
-Bentsen, M. et al. (2020) “ATAC-seq footprinting unravels kinetics of transcription factor binding during zygotic genome activation,” Nature communications, 11(1), p. 4267.
-van den Berg, L. et al. (2023) “Sugar-responsive inhibition of Myc-dependent ribosome biogenesis by Clockwork orange,” Cell reports, 42(7), p. 112739.
-Chourpiliadis, C. and Mohiuddin, S.S. (2019) “Biochemistry, gluconeogenesis.” Available at: https://www.ncbi.nlm.nih.gov/books/NBK544346/.
-Das, R. and Dobens, L.L. (2015) “Conservation of gene and tissue networks regulating insulin signalling in flies and vertebrates,” Biochemical Society transactions, 43(5), pp. 1057–1062.
-Ghosh, A.C. and O’Connor, M.B. (2014) “Systemic Activin signaling independently regulates sugar homeostasis, cellular metabolism, and pH balance in Drosophila melanogaster,” Proceedings of the National Academy of Sciences, 111(15), pp. 5729–5734.
-Graham, P. and Pick, L. (2017) “Drosophila as a Model for Diabetes and Diseases of Insulin Resistance,” Current topics in developmental biology, 121, pp. 397–419.
-Kolb, H. et al. (2020) “Insulin: too much of a good thing is bad,” BMC medicine, 18(1), p. 224.
-Mattila, J. et al. (2015) “Mondo-Mlx Mediates Organismal Sugar Sensing through the Gli-Similar Transcription Factor Sugarbabe,” Cell reports, 13(2), pp. 350–364.
-Mattila, J. and Hietakangas, V. (2017) “Regulation of Carbohydrate Energy Metabolism in Drosophila melanogaster,” Genetics, 207(4), pp. 1231–1253.
+Bentsen, M., Goymann, P., Schultheis, H., Klee, K., Petrova, A., Wiegandt, R., Fust, A., Preussner, J., Kuenne, C., Braun, T., Kim, J., Gagneur, J., and Looso, M. 2020. ATAC-seq footprinting unravels kinetics of transcription factor binding during zygotic genome activation. Nat. Commun. 11: 4267.
 
+van den Berg, L., Kockx, C.E.M., van der Horst, S., van der Kallen, C.J.H., Schalkwijk, C.G., Stehouwer, C.D.A., and van Greevenbroek, M.M.J. 2023. Sugar-responsive inhibition of Myc-dependent ribosome biogenesis by Clockwork orange. Cell Rep. 42: 112739.
 
+Chourpiliadis, C. and Mohiuddin, S.S. 2019. Biochemistry, gluconeogenesis. Available at: https://www.ncbi.nlm.nih.gov/books/NBK544346/.
+
+Das, R. and Dobens, L.L. 2015. Conservation of gene and tissue networks regulating insulin signalling in flies and vertebrates. Biochem. Soc. Trans. 43: 1057–1062.
+
+Ghosh, A.C. and O’Connor, M.B. 2014. Systemic Activin signaling independently regulates sugar homeostasis, cellular metabolism, and pH balance in Drosophila melanogaster. Proc. Natl. Acad. Sci. USA 111: 5729–5734.
+
+Graham, P. and Pick, L. 2017. Drosophila as a model for diabetes and diseases of insulin resistance. Curr. Top. Dev. Biol. 121: 397–419.
+
+Kolb, H., Martin, S., and Kempf, K. 2020. Insulin: too much of a good thing is bad. BMC Med. 18: 224.
+
+Mattila, J., Bremer, A., Ahonen, L., Kallijärvi, J., and Hietakangas, V. 2015. Mondo-Mlx mediates organismal sugar sensing through the Gli-similar transcription factor Sugarbabe. Cell Rep. 13: 350–364.
+
+Mattila, J. and Hietakangas, V. 2017. Regulation of carbohydrate energy metabolism in Drosophila melanogaster. Genetics 207: 1231–1253.
