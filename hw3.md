@@ -16,11 +16,11 @@ This summarizes the FASTA file, listing how many total bases, N's, as well as th
 The output will show the chromosomes, mapped scaffolds, unmapped scaffold, and rDNA. 
 ## Counting the number of nucleotides
 `zcat dmel-all-chromosome-r6.48.fasta.gz | grep -v '^>' | tr -d '\n' | wc -c > nucleotides.txt`
-`less nucleotides`
+`less nucleotides.txt`
 Will open file nucleotides with the number 143726002. This allows to remove the header/geneID by using grep. The command `tr -d '\n'` will delete any spacing in the line, essentially turning into one line. We can then count the characters of that line using wc -c, telling us the number of nucleotides. 
 ## Counting the number of sequences
 `zcat dmel-all-chromosome-r6.48.fasta.gz | grep -c '^>' > sequences.txt`
-`less sequences`
+`less sequences.txt`
 Using grep to count the number of things that starts with ^> allows us to count how many gene sequences are present. 
 Will open the file sequences that will tell us that we have 1870 sequences
 ## Counting the number of N's
@@ -55,6 +55,7 @@ The output should be:
     262 pre_miRNA
     115 rRNA
      32 snRNA
+This sorts the features from most to least common, with exons beings the most common feature and snRNA being the least common. 
 ## Total number of genes on the X chromosome (Individually)
 `bioawk -c gff '{if ( $1 == "X" && $3 == "gene" ) print $0}' dmel-all-r6.48.gtf.gz | sort | uniq -c | wc -l > X.genes.txt`
 `less X.genes.txt`
@@ -94,3 +95,6 @@ We can do this using a similar method to when we sorted the number of features.
       1 211000022278449
       1 211000022278436
       1 211000022278279
+Within this file, the chromosome arm with the largest amount of genes is the 3R with 4227 annotated gene. The chromosome are with the fewest amount of annotated genes is the Y chromosome with 113. 
+
+
