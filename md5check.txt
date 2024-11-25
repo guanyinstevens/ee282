@@ -1,0 +1,3 @@
+be1f79c5922a4bf08548a2a4553e4d5f  dmel-all-chromosome-r6.48.fasta.gz
+e13fa4e210bb47378ac2797cf78d69b3  dmel-all-r6.48.gtf.gz
+d319af263f2df86ab5bc0ba61fdab5f8  GSE70978_all_sample_exon_counts_Mlx1.txt.gz
