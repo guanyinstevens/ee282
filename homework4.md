@@ -67,20 +67,30 @@ To the compare the N50's for the scaffold and contig sequences, I first download
 `wget "https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/001/215/GCF_000001215.4_Release_6_plus_ISO1_MT/GCF_000001215.4_Release_6_plus_ISO1_MT_genomic.fna.gz" -O GCF_000001215.4_Release_6_plus_ISO1_MT_genomic.fna.gz`
 `wget "https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/001/215/GCF_000001215.4_Release_6_plus_ISO1_MT/md5checksums.txt" -O md5checksums.txt`
 `md5sum -c md5checksums.txt`
-`wget https://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/000/705/575/GCA_000705575.1_D._melanogaster_TruSeq_synthetic_long-read_assembly/GCA_000705575.1_D._melanogaster_TruSeq_synthetic_long-read_assembly_genomic.fna.gz"" -O GCA_000705575.1_D._melanogaster_TruSeq_synthetic_long-read_assembly_genomic.fna.gz`
-`wget "https://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/000/705/575/GCA_000705575.1_D._melanogaster_TruSeq_synthetic_long-read_assembly/md5checksums.txt" -O md5checksums.txt`
-`md5sum -c md5checksums.txt`
-I then performed a similar analysis for the HIFIASM assembly N50 calculation following these commands:
-`total_length=$(awk '{sum += $2} END {print sum}' dmel_sorted_sequences_by_length.txt)`
-`half_total_length=$(echo "$total_length / 2" | bc)`
-`awk -v half_total_length="$half_total_length" ' BEGIN {cumulative_length = 0}{ cumulative_length += $2; if (cumulative_length >= half_total_length && n50 == 0) {n50 = $2; print "N50: " n50; exit} }' dmel_sorted_sequences_by_length.txt`
-N50: 25286936 (25.2 Mb) for the scaffold assembly. 
-`contig_total_length=$(awk '{sum += $2} END {print sum}' dmel_contig_sorted_sequences_by_length.txt)`
-`contig_half_total_length=$(echo "$contig_total_length / 2" | bc)`
-`awk -v contig_half_total_length="$contig_half_total_length" ' BEGIN {cumulative_length = 0}{ cumulative_length += $2; if (cumulative_length >= contig_half_total_length && n50 == 0) {n50 = $2; print "N50: " n50; exit} }' dmel_contig_sorted_sequences_by_length.txt`
-N50 for contig: 109246 
+To assemble just the contigs, I used faSplitByN. To do this, I first looked to see how many N's I would need to split by. 
+
 I then plotted these using plotCDF with this command: 
 `plotCDF dmel_contig_sorted_sequences_by_length.txt dmel_sorted_sequences_by_length.txt sorted_sequences_by_length.txt assembly_comparison.png`
+`zcat GCF_000001215.4_Release_6_plus_ISO1_MT_genomic.fna.gz | grep -v ">" | tr -d "\n" | grep -o "N*" | awk '{ print length }' > n_lengths.txt`
+`wc -l n_lengths.txt`
+This gave an output of 572, which is what I specified for my N. 
+`aSplitByN GCF_000001215.4_Release_6_plus_ISO1_MT_genomic.fna.gz contig_GCF_Release_6_ISO1_genomic.fna.gz 572` gave me my fasta file for just the contigs. 
+I then used the following commands to calculate the N50 for the scaffold assembly:
+`bioawk -c fastx '{print $name, length($seq)}' contig_GCF_Release_6_ISO1_genomic.fna.gz | sort -n -k2,2 -r > contig_sorted_sequences_by_length.txt ` which allowed me to sort my sequences from largest to smallest. 
+To calculate the full length and half length, I used the commands:
+`contig_total_length=$(awk '{sum += $2} END {print sum}' contig_sorted_sequences_by_length.txt)`
+`contig_half_total_length=$(echo "$contig_total_length / 2" | bc)`
+To then calculate the N50, I ran this command: `"awk -v contig_half_total_length=$contig_half_total_length"" ' BEGIN {cumulative_length = 0}{ cumulative_length += $2; if (cumulative_length >= contig_half_total_length && n50 == 0) {n50 = $2; print "N50: " n50; exit} }' contig_sorted_sequences_by_length.txt`
+The N50 for the contig was: 23513712 (23.5 Mb)
+For the scaffold, I ran the same commands:
+`bioawk -c fastx '{print $name, length($seq)}' GCF_000001215.4_Release_6_plus_ISO1_MT_genomic.fna.gz | sort -n -k2,2 -r > scaffold_sorted_sequences_by_length.txt`
+`scaffold_total_length=$(awk '{sum += $2} END {print sum}' scaffold_sorted_sequences_by_length.txt)`
+`scaffold_half_total_length=$(echo "$scaffold_total_length / 2" | bc)`
+`awk -v scaffold_half_total_length="$scaffold_half_total_length" ' BEGIN {cumulative_length = 0}{ cumulative_length += $2; if (cumulative_length >= scaffold_half_total_length && n50 == 0) {n50 = $2; print "N50: " n50; exit} }' scaffold_sorted_sequences_by_length.txt`
+The N50 score was: 25286936 (25.2 Mb)
+
+
+To plot the cumulative sequences sizes, I used plotCDF and used the following command: `plotCDF contig_sorted_sequences_by_length.txt scaffold_sorted_sequences_by_length.txt sorted_sequences_by_length.txt assembly.png`
 
 ## Busco Analysis
 To perform the BUSCO analysis, I tried to use the BUSCO package and pipline but was unable to. I instead used the compleasm package as an alternative. 
@@ -98,7 +108,7 @@ I:0.00%, 0
 M:0.00%, 0
 N:255
  
-To then analyze the contig assembly, I used a similar command: `compleasm run -a GCF_000001215.4_Release_6_plus_ISO1_MT_genomic.fna.gz -o /pub/glsteven -t '16' -l 'eukaryota_odb10'`
+To then analyze the contig assembly, I used a similar command: `compleasm run -a contig_GCF_Release_6_ISO1_genomic.fna.gz -o /pub/glsteven -t '16' -l 'eukaryota_odb10'`
 The results from the command were: 
 S:100.00%, 255
 D:0.00%, 0
@@ -107,7 +117,7 @@ I:0.00%, 0
 M:0.00%, 0
 N:255
 
-To then analyze the scaffold assembly, I used the following command: `compleasm run -a GCA_000705575.1_D._melanogaster_TruSeq_synthetic_long-read_assembly_genomic.fna.gz -o /pub/glsteven -t '16'-l 'eukaryota_odb10'`
+To then analyze the scaffold assembly, I used the following command: `compleasm run -a GCF_000001215.4_Release_6_plus_ISO1_MT_genomic.fna.gz -o /pub/glsteven -t '16' -l 'eukaryota_odb10'`
 The results were:
 S:100.00%, 255
 D:0.00%, 0
@@ -118,4 +128,35 @@ N:255
 
 This indicates for all three assemblies, that the number of BUSCO genes that aligned once to the genome was 255, and the number of unmapped genes was 255. There were no duplciated genes or fragments genes. However, the percentage for the matched genes was 100%, so I am unsure why there was unmapped genes. Maybe it is because it is an inbred strain of *Drosophila* and not a true wild-type genome, so the core markers are present, while other genes may not be found. 
 
+In addition, I also performed the same analysis, but instead of using the eukaryote lineage, using the diptera lineage. 
+I first downloaded the diptera lineage from the remote repository using the following command: `compleasm download diptera_odb10`
+I then analyzed the hifiasm assembly, contig assembly, and scaffold assembly using the respective commands: 
+hifiasm - `compleasm run -a ISO1.asm.bp.p_ctg.fasta -o /pub/glsteven -t '16' -l 'diptera_odb10'`
+contig - `compleasm run -a contig_GCF_Release_6_ISO1_genomic.fna.gz -o /pub/glsteven -t '16' -l 'diptera_odb10'`
+scaffold - `compleasm run -a GCF_000001215.4_Release_6_plus_ISO1_MT_genomic.fna.gz -o /pub/glsteven -t '16' -l 'diptera_odb10'`
+The results from each command were as follows:
+Hifiasm: 
+S:99.73%, 3276
+D:0.27%, 9
+F:0.00%, 0
+I:0.00%, 0
+M:0.00%, 0
+N:3285
 
+Contig:
+S:99.73%, 3276
+D:0.27%, 9
+F:0.00%, 0
+I:0.00%, 0
+M:0.00%, 0
+N:3285
+
+Scaffold: 
+S:99.73%, 3276
+D:0.27%, 9
+F:0.00%, 0
+I:0.00%, 0
+M:0.00%, 0
+N:3285
+
+This tells us that the number of BUSCO genes that were successfully aligned to the lineage genome was 99.73%, with 3276 genes entirely aligned once. There were 9 duplicated genes to the diptera lineage, but no fragmented genes were present. There were 3285 missing genes, which again is interesting because of the high single copy percentage. 
