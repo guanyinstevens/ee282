@@ -32,20 +32,32 @@ To download the data into R, I used the command: `gc_content_lte_100kb.df <- rea
 I then sorted the columns for the scaffolds and GC content (which were labeled as X) by using the command: `> gc_content_lte_100kb.df <- gc_content_lte_100kb.df[, c("Scaffold", "X")]`. 
 To then plot the data I used the command: `"ggplot(gc_content_lte_100kb.df, aes(x = Scaffold, y = X)) +
 geom_bar(stat = ""identity"", color = ""black"") + labs(title = ""GC Content by Scaffold"", x = ""Scaffold"", y = ""GC Content (%)"")"`.
+Plot: 
+![GC Content for Less than 100kb](https://github.com/guanyinstevens/ee282/blob/homework4/GC_content_lte_100kb.png?raw=true)
+[here](https://github.com/guanyinstevens/ee282/blob/homework4/GC_content_lte_100kb.png)
 This plot would be the plot of the GC content for sequences that were less than or equal to 100kb. 
 To download the file that contains the sequences that are greater than 100kb, I used the command: `gc_content_gte_100kb.df <- read.delim('gc_gt_100kb_dmel-all-chromosome-r6.60.txt', header = TRUE, sep = '\t', stringsAsFactors = FALSE, row.names=NULL)`
 To plot the GC content for the sequences that were greater than 100kb, I used the following commands:
 `ggplot(gc_content_gte_100kb.df, aes(x = V1, y = V2)) + geom_bar(stat = ""identity"")`
 `ggplot(gc_content_gte_100kb.df, aes(x = V1, y = V2)) + geom_bar(stat = ""identity"", fill = ""pink"", color = ""black"") + labs(title = ""GC Content for Sequences Larger than 100 kb"", x = ""Scaffold"", y = ""GC Content (%)"")`
+Plot: 
+![Plot of GC Content for Greater than 100kb](https://github.com/guanyinstevens/ee282/blob/homework4/Plot_of_GC_Content_for_Greater_than_100kb.png?raw=true)
+[here](https://github.com/guanyinstevens/ee282/blob/homework4/Plot_of_GC_Content_for_Greater_than_100kb.png)
 For sequence length, I plotted log10 values of the sequences to better visualize the frequency of the lengths. 
-For sequences that were less than or equal to 100kb, I used the following commands to plot the sequence lengths:
+For sequences that were greater than 100kb, I used the following commands to plot the sequence lengths:
 `length_gte_100kb.df <- read.delim('length-gt-100kb-dmel-all-chromosome-r6.60.txt', header = FALSE, sep = '\t', stringsAsFactors = FALSE)`
-`length_gte_100kb.df$log_V2 <- log10(length_gte_100kb.df$V2)`
-`ggplot(length_gte_100kb.df, aes(x = V1, y = log_V2, fill = V1)) + geom_col() + labs(title = ""Log-Transformed Sequence Lengths by Scaffold"", x = ""Scaffold"", y = ""Log10 Sequence Length"")`
-To then plot sequences that were greater than 100kb, I used the following commands:
+`length_gte_100kb.df$log_V2 <- log10(length_gte_100kb.df$V2)
+ggplot(length_gte_100kb.df, aes(x = V1, y = log_V2, fill = V1)) + geom_col() + labs(title = ""Log-Transformed Sequence Lengths by Scaffold"", x = ""Scaffold"", y = ""Log10 Sequence Length"")`
+Plot: 
+![Log Transformed Sequence Length (>=100kb)](https://github.com/guanyinstevens/ee282/blob/homework4/log_transformed_sequence_length_gte_100kb.png?raw=true)
+[here](https://github.com/guanyinstevens/ee282/blob/homework4/log_transformed_sequence_length_gte_100kb.png)
+To then plot sequences that were less than or equal to 100kb, I used the following commands:
 `length_lte_100kb.df <- read.delim('length-lte-100kb-dmel-all-chromosome-r6.60.txt', header = FALSE, sep = '\t', stringsAsFactors = FALSE)`
 `length_lte_100kb.df$log_V2 <- log10(length_lte_100kb.df$V2)`
 `ggplot(length_lte_100kb.df, aes(x = log_V2)) + geom_histogram(bins = 50, fill = "lavender", color = "black") +  labs(title = "Histogram of Sequence Lengths Less than 100kb", x = "Log10 Sequence Length", y = "Frequency of Sequence Length")`
+Plot: 
+![Log Transformed Sequence Length (<=100kb)](https://github.com/guanyinstevens/ee282/blob/homework4/log_transformed_sequence_length_lte_100kb.png?raw=true)
+[here](https://github.com/guanyinstevens/ee282/blob/homework4/log_transformed_sequence_length_lte_100kb.png)
 The commands then produce a histogram showing the log10 values of the different sequences that were greater than or less than or equal to 100kb. 
 To plot the cumulative sequence size from largest to smallest sequences, I used the command line in Terminal, using the plotCDF utility. I first used the sort command to sort the sequence length from largest to smallest, using the following commands:
 `sort -rnk2 length-lte-100kb-dmel-all-chromosome-r6.60.txt > sorted_length-lte-100kb-dmel-all-chromosome-r6.60.txt`
@@ -53,6 +65,11 @@ To plot the cumulative sequence size from largest to smallest sequences, I used 
 To the plot the cumulative sequence sizes, I used the commands:
 `plotCDF sorted_length-gt-100kb-dmel-all-chromosome-r6.60.txt sorted_length_gt_100kb_CDF.png`
 `plotCDF sorted_length-lte-100kb-dmel-all-chromosome-r6.60.txt sorted_length_lte_100kb_CDF.png`
+Plot: 
+![Sorted Length > 100kb CDF](https://github.com/guanyinstevens/ee282/blob/homework4/sorted_length_gt_100kb_CDF.png?raw=true)
+[here](https://github.com/guanyinstevens/ee282/blob/homework4/sorted_length_gt_100kb_CDF.png)
+![Sorted Length <= 100kb CDF](https://github.com/guanyinstevens/ee282/blob/homework4/sorted_length_lte_lte_100kb_CDF.png?raw=true)
+[here](https://github.com/guanyinstevens/ee282/blob/homework4/sorted_length_lte_lte_100kb_CDF.png)
 ## Genome Assembly
 To first download and perform the hifiasm assembly, I did the following commands:
 `hifiasm -o ISO1.asm -t16 -l0 ISO1_Hifi_AdaptorRem.40X.fasta.gz 2> ISO1.asm.log`
@@ -68,12 +85,9 @@ To the compare the N50's for the scaffold and contig sequences, I first download
 `wget "https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/001/215/GCF_000001215.4_Release_6_plus_ISO1_MT/GCF_000001215.4_Release_6_plus_ISO1_MT_genomic.fna.gz" -O GCF_000001215.4_Release_6_plus_ISO1_MT_genomic.fna.gz`
 `wget "https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/001/215/GCF_000001215.4_Release_6_plus_ISO1_MT/md5checksums.txt" -O md5checksums.txt`
 `md5sum -c md5checksums.txt`
-To assemble just the contigs, I used faSplitByN. To do this, I first looked to see how many N's I would need to split by. 
-
-I then plotted these using plotCDF with this command: 
-`plotCDF dmel_contig_sorted_sequences_by_length.txt dmel_sorted_sequences_by_length.txt sorted_sequences_by_length.txt assembly_comparison.png`
-` 
-`aSplitByN GCF_000001215.4_Release_6_plus_ISO1_MT_genomic.fna.gz contig_GCF_Release_6_ISO1_genomic.fna.gz 10` gave me my fasta file for just the contigs. 
+To assemble just the contigs, I used faSplitByN. 
+I split by 10 N's using this command:
+`FaSplitByN GCF_000001215.4_Release_6_plus_ISO1_MT_genomic.fna.gz contig_GCF_Release_6_ISO1_genomic.fna.gz 20` gave me my fasta file for just the contigs. 
 I then used the following commands to calculate the N50 for the scaffold assembly:
 `bioawk -c fastx '{print $name, length($seq)}' contig_GCF_Release_6_ISO1_genomic.fna.gz | sort -n -k2,2 -r > contig_sorted_sequences_by_length.txt ` which allowed me to sort my sequences from largest to smallest. 
 To calculate the full length and half length, I used the commands:
@@ -90,6 +104,9 @@ The N50 score was: 25286936 (25.2 Mb)
 
 
 To plot the cumulative sequences sizes, I used plotCDF and used the following command: `plotCDF contig_sorted_sequences_by_length.txt scaffold_sorted_sequences_by_length.txt sorted_sequences_by_length.txt assembly.png`
+Plot: 
+![Assembly Plot](https://github.com/guanyinstevens/ee282/blob/homework4/assembly.png?raw=true)
+[here](https://github.com/guanyinstevens/ee282/blob/homework4/assembly.png)
 
 ## Busco Analysis
 To perform the BUSCO analysis, I tried to use the BUSCO package and pipline but was unable to. I instead used the compleasm package as an alternative. 
