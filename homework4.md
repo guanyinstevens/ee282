@@ -35,16 +35,16 @@ geom_bar(stat = ""identity"", color = ""black"") + labs(title = ""GC Content by 
 This plot would be the plot of the GC content for sequences that were less than or equal to 100kb. 
 To download the file that contains the sequences that are greater than 100kb, I used the command: `gc_content_gte_100kb.df <- read.delim('gc_gt_100kb_dmel-all-chromosome-r6.60.txt', header = TRUE, sep = '\t', stringsAsFactors = FALSE, row.names=NULL)`
 To plot the GC content for the sequences that were greater than 100kb, I used the following commands:
-`"ggplot(gc_content_gte_100kb.df, aes(x = V1, y = V2)) + geom_bar(stat = ""identity"")`
-`ggplot(gc_content_gte_100kb.df, aes(x = V1, y = V2)) + geom_bar(stat = ""identity"", fill = ""pink"", color = ""black"") + labs(title = ""GC Content for Sequences Larger than 100 kb"", x = ""Scaffold"", y = ""GC Content (%)"")"`
+`ggplot(gc_content_gte_100kb.df, aes(x = V1, y = V2)) + geom_bar(stat = ""identity"")`
+`ggplot(gc_content_gte_100kb.df, aes(x = V1, y = V2)) + geom_bar(stat = ""identity"", fill = ""pink"", color = ""black"") + labs(title = ""GC Content for Sequences Larger than 100 kb"", x = ""Scaffold"", y = ""GC Content (%)"")`
 For sequence length, I plotted log10 values of the sequences to better visualize the frequency of the lengths. 
 For sequences that were less than or equal to 100kb, I used the following commands to plot the sequence lengths:
 `length_gte_100kb.df <- read.delim('length-gt-100kb-dmel-all-chromosome-r6.60.txt', header = FALSE, sep = '\t', stringsAsFactors = FALSE)`
-`"> length_gte_100kb.df$log_V2 <- log10(length_gte_100kb.df$V2)
-ggplot(length_gte_100kb.df, aes(x = V1, y = log_V2, fill = V1)) + geom_col() + labs(title = ""Log-Transformed Sequence Lengths by Scaffold"", x = ""Scaffold"", y = ""Log10 Sequence Length"")"`
+`length_gte_100kb.df$log_V2 <- log10(length_gte_100kb.df$V2)
+ggplot(length_gte_100kb.df, aes(x = V1, y = log_V2, fill = V1)) + geom_col() + labs(title = ""Log-Transformed Sequence Lengths by Scaffold"", x = ""Scaffold"", y = ""Log10 Sequence Length"")`
 To then plot sequences that were greater than 100kb, I used the following commands:
 `length_lte_100kb.df <- read.delim('length-lte-100kb-dmel-all-chromosome-r6.60.txt', header = FALSE, sep = '\t', stringsAsFactors = FALSE)`
-`> ggplot(length_lte_100kb.df, aes(x = log_V2)) + geom_histogram(bins = 50, fill = "lavender", color = "black") +  labs(title = "Histogram of Sequence Lengths Less than 100kb", x = "Log10 Sequence Length", y = "Frequency of Sequence Length")`
+`ggplot(length_lte_100kb.df, aes(x = log_V2)) + geom_histogram(bins = 50, fill = "lavender", color = "black") +  labs(title = "Histogram of Sequence Lengths Less than 100kb", x = "Log10 Sequence Length", y = "Frequency of Sequence Length")`
 The commands then produce a histogram showing the log10 values of the different sequences that were greater than or less than or equal to 100kb. 
 To plot the cumulative sequence size from largest to smallest sequences, I used the command line in Terminal, using the plotCDF utility. I first used the sort command to sort the sequence length from largest to smallest, using the following commands:
 `sort -rnk2 length-lte-100kb-dmel-all-chromosome-r6.60.txt > sorted_length-lte-100kb-dmel-all-chromosome-r6.60.txt`
@@ -80,7 +80,7 @@ I then used the following commands to calculate the N50 for the scaffold assembl
 To calculate the full length and half length, I used the commands:
 `contig_total_length=$(awk '{sum += $2} END {print sum}' contig_sorted_sequences_by_length.txt)`
 `contig_half_total_length=$(echo "$contig_total_length / 2" | bc)`
-To then calculate the N50, I ran this command: `"awk -v contig_half_total_length=$contig_half_total_length"" ' BEGIN {cumulative_length = 0}{ cumulative_length += $2; if (cumulative_length >= contig_half_total_length && n50 == 0) {n50 = $2; print "N50: " n50; exit} }' contig_sorted_sequences_by_length.txt`
+To then calculate the N50, I ran this command: `awk -v contig_half_total_length=$contig_half_total_length"" ' BEGIN {cumulative_length = 0}{ cumulative_length += $2; if (cumulative_length >= contig_half_total_length && n50 == 0) {n50 = $2; print "N50: " n50; exit} }' contig_sorted_sequences_by_length.txt`
 The N50 for the contig was: 23513712 (23.5 Mb)
 For the scaffold, I ran the same commands:
 `bioawk -c fastx '{print $name, length($seq)}' GCF_000001215.4_Release_6_plus_ISO1_MT_genomic.fna.gz | sort -n -k2,2 -r > scaffold_sorted_sequences_by_length.txt`
