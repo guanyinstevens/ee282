@@ -71,10 +71,8 @@ To assemble just the contigs, I used faSplitByN. To do this, I first looked to s
 
 I then plotted these using plotCDF with this command: 
 `plotCDF dmel_contig_sorted_sequences_by_length.txt dmel_sorted_sequences_by_length.txt sorted_sequences_by_length.txt assembly_comparison.png`
-`zcat GCF_000001215.4_Release_6_plus_ISO1_MT_genomic.fna.gz | grep -v ">" | tr -d "\n" | grep -o "N*" | awk '{ print length }' > n_lengths.txt`
-`wc -l n_lengths.txt`
-This gave an output of 572, which is what I specified for my N. 
-`aSplitByN GCF_000001215.4_Release_6_plus_ISO1_MT_genomic.fna.gz contig_GCF_Release_6_ISO1_genomic.fna.gz 572` gave me my fasta file for just the contigs. 
+` 
+`aSplitByN GCF_000001215.4_Release_6_plus_ISO1_MT_genomic.fna.gz contig_GCF_Release_6_ISO1_genomic.fna.gz 10` gave me my fasta file for just the contigs. 
 I then used the following commands to calculate the N50 for the scaffold assembly:
 `bioawk -c fastx '{print $name, length($seq)}' contig_GCF_Release_6_ISO1_genomic.fna.gz | sort -n -k2,2 -r > contig_sorted_sequences_by_length.txt ` which allowed me to sort my sequences from largest to smallest. 
 To calculate the full length and half length, I used the commands:
