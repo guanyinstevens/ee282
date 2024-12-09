@@ -24,6 +24,7 @@ geom_bar(stat = ""identity"", color = ""black"") + labs(title = ""GC Content by 
 `length_gte_100kb.df$log_V2 <- log10(length_gte_100kb.df$V2)
 ggplot(length_gte_100kb.df, aes(x = V1, y = log_V2, fill = V1)) + geom_col() + labs(title = ""Log-Transformed Sequence Lengths by Scaffold"", x = ""Scaffold"", y = ""Log10 Sequence Length"")`
 `length_lte_100kb.df <- read.delim('length-lte-100kb-dmel-all-chromosome-r6.60.txt', header = FALSE, sep = '\t', stringsAsFactors = FALSE)`
+`length_lte_100kb.df$log_V2 <- log10(length_lte_100kb.df$V2)`
 `ggplot(length_lte_100kb.df, aes(x = log_V2)) + geom_histogram(bins = 50, fill = "lavender", color = "black") +  labs(title = "Histogram of Sequence Lengths Less than 100kb", x = "Log10 Sequence Length", y = "Frequency of Sequence Length")`
 Using terminal
 `#!/usr/bin/env bash`

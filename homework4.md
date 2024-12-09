@@ -40,10 +40,11 @@ To plot the GC content for the sequences that were greater than 100kb, I used th
 For sequence length, I plotted log10 values of the sequences to better visualize the frequency of the lengths. 
 For sequences that were less than or equal to 100kb, I used the following commands to plot the sequence lengths:
 `length_gte_100kb.df <- read.delim('length-gt-100kb-dmel-all-chromosome-r6.60.txt', header = FALSE, sep = '\t', stringsAsFactors = FALSE)`
-`length_gte_100kb.df$log_V2 <- log10(length_gte_100kb.df$V2)
-ggplot(length_gte_100kb.df, aes(x = V1, y = log_V2, fill = V1)) + geom_col() + labs(title = ""Log-Transformed Sequence Lengths by Scaffold"", x = ""Scaffold"", y = ""Log10 Sequence Length"")`
+`length_gte_100kb.df$log_V2 <- log10(length_gte_100kb.df$V2)`
+`ggplot(length_gte_100kb.df, aes(x = V1, y = log_V2, fill = V1)) + geom_col() + labs(title = ""Log-Transformed Sequence Lengths by Scaffold"", x = ""Scaffold"", y = ""Log10 Sequence Length"")`
 To then plot sequences that were greater than 100kb, I used the following commands:
 `length_lte_100kb.df <- read.delim('length-lte-100kb-dmel-all-chromosome-r6.60.txt', header = FALSE, sep = '\t', stringsAsFactors = FALSE)`
+`length_lte_100kb.df$log_V2 <- log10(length_lte_100kb.df$V2)`
 `ggplot(length_lte_100kb.df, aes(x = log_V2)) + geom_histogram(bins = 50, fill = "lavender", color = "black") +  labs(title = "Histogram of Sequence Lengths Less than 100kb", x = "Log10 Sequence Length", y = "Frequency of Sequence Length")`
 The commands then produce a histogram showing the log10 values of the different sequences that were greater than or less than or equal to 100kb. 
 To plot the cumulative sequence size from largest to smallest sequences, I used the command line in Terminal, using the plotCDF utility. I first used the sort command to sort the sequence length from largest to smallest, using the following commands:
